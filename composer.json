@@ -16,13 +16,21 @@
     ],
     "autoload": {
         "psr-4": {
-            "SberbankApi\\": "./src"
+            "SberbankApi\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SberbankApi\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "SberbankApiServiceProvider"
+                "SberbankApi\\SberbankApiServiceProvider"
             ]
         }
     },
