@@ -29,12 +29,12 @@ class SberbankApi
         return $this->http ?? new HttpClient();
     }
 
-    public function registerDo(array $params, string $interface): ?ResponseInterface
+    public function registerDo(array $params, string $interface = 'rest'): ?ResponseInterface
     {
         return $this->sendRequest('register.do', $params, $interface);
     }
 
-    protected function sendRequest(string $endpoint, array $params, string $interface = 'rest', bool $multipart = false): ?ResponseInterface
+    protected function sendRequest(string $endpoint, array $params, string $interface, bool $multipart = false): ?ResponseInterface
     {
         if (blank($this->username)) {
             throw CouldNotSend::sberbankUserNotProvided('You must provide your sberbank user name');
@@ -42,16 +42,19 @@ class SberbankApi
             throw CouldNotSend::sberbankPasswordNotProvided('You must provide your sberbank password');
         }
 
+        $register = [
+            'userName' => config('sberbank-api.username'),
+            'password' => config('sberbank-api.password')
+        ];
+
+        $params = array_merge($params, $register);
+
         $url = new SberbankApiMode($this->is_test);
 
         $endPointUrl = $url->getUrl() . $interface . '/' . $endpoint;
 
         try {
             return $this->httpClient()->post($endPointUrl, [
-                'headers' => [
-                    'userName' => $this->username,
-                    'password' => $this->password
-                ],
                 $multipart ? 'multipart' : 'form_params' => $params
             ]);
         } catch (ClientException $exception) {
