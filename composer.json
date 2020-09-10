@@ -1,0 +1,32 @@
+{
+    "name": "doggy00/laravel-sberbank",
+    "description": "Laravel sberbank API client",
+    "type": "library",
+    "require": {
+        "php": "^7.1",
+        "guzzlehttp/guzzle": "^6.2",
+        "ext-json": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "doggy00",
+            "email": "alexandrbozhko88@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SberbankApi\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SberbankApi\\ServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0"
+    }
+}
