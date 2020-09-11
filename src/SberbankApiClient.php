@@ -8,14 +8,14 @@ use SberbankApi\Exceptions\CouldNotSend;
 
 class SberbankApiClient
 {
-    protected static $sberbank;
+    protected $sberbank;
 
     public function __construct()
     {
-        self::$sberbank = new SberbankApi();
+        $this->sberbank = new SberbankApi();
     }
 
-    public static function send($params) {
+    public function send($params) {
 
         if (!is_array($params)) {
             throw CouldNotSend::invalidType();
@@ -34,7 +34,7 @@ class SberbankApiClient
         $data = $params->toArray();
 
         if ($params instanceof SberbankApiDo) {
-            $response = self::$sberbank->registerDo($data);
+            $response = $this->sberbank->registerDo($data);
         }
 
         return json_decode($response->getBody()->getContents(), true);

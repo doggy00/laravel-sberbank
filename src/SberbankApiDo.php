@@ -33,6 +33,7 @@ class SberbankApiDo
 
     public function send()
     {
-        return SberbankApiClient::send($this->params);
+        $api = new SberbankApiClient();
+        return $api->send($this->params);
     }
 }
