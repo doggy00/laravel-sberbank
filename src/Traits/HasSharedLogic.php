@@ -3,29 +3,13 @@
 
 namespace SberbankApi\Traits;
 
-
-use SberbankApi\SberbankApi;
-
 trait HasSharedLogic
 {
     protected $params = [];
-    protected $sberbank;
-
-    public function __construct()
-    {
-        $this->sberbank = new SberbankApi();
-    }
 
     public function options(array $options): self
     {
         $this->params = array_merge($this->params, $options);
-
-        return $this;
-    }
-
-    public function returnUrl(): self
-    {
-        $this->params['returnUrl'] = config('sberbank-api.returnurl');
 
         return $this;
     }

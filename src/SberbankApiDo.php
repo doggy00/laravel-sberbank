@@ -18,6 +18,7 @@ class SberbankApiDo
     public function __construct(int $orderNumber, int $amount)
     {
         $this->content($orderNumber, $amount);
+        $this->params['returnUrl'] = config('sberbank-api.returnurl');
     }
 
     public function content(int $orderNumber, int $amount): self
@@ -32,7 +33,6 @@ class SberbankApiDo
 
     public function send()
     {
-        $api = new SberbankApiClient($this->sberbank);
-        return $api->send($this->params);
+        return SberbankApiClient::send($this->params);
     }
 }
