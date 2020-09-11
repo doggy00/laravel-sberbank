@@ -3,6 +3,8 @@
 
 namespace SberbankApi\Traits;
 
+use SberbankApi\SberbankApiClient;
+
 trait HasSharedLogic
 {
     protected $params = [];
@@ -29,6 +31,11 @@ trait HasSharedLogic
     public function jsonSerialize()
     {
         return $this->toArray();
+    }
+
+    public function apiClient()
+    {
+        return new SberbankApiClient();
     }
 
 }

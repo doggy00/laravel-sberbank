@@ -4,9 +4,10 @@
 namespace SberbankApi;
 
 
+use SberbankApi\Exceptions\CouldNotSend;
 use SberbankApi\Traits\HasSharedLogic;
 
-class SberbankApiDo
+class SberbankApiDepositDo
 {
     use HasSharedLogic;
 
@@ -18,10 +19,9 @@ class SberbankApiDo
     public function __construct(int $orderNumber, int $amount)
     {
         $this->content($orderNumber, $amount);
-        $this->params['returnUrl'] = config('sberbank-api.returnurl');
     }
 
-    public function content(int $orderNumber, int $amount): self
+    protected function content(int $orderNumber, int $amount): self
     {
         $this->params = [
             'orderNumber' => $orderNumber,
@@ -33,7 +33,12 @@ class SberbankApiDo
 
     public function send()
     {
-        $api = new SberbankApiClient();
-        return $api->send($this->params);
+        if (blank($this->params['orderId'])) {
+            throw CouldNotSend::sberbankOrderIdNotProvided('You must provide your sberbank order ID');
+        } elseif (blank($this->params['amount'])) {
+            throw CouldNotSend::orderAmountNotProvided();
+        }
+
+        return $this->apiClient()->send($this->params);
     }
 }

@@ -18,6 +18,11 @@ class CouldNotSend extends Exception
         return new static($message);
     }
 
+    public static function sberbankOrderIdNotProvided($message): self
+    {
+        return new static($message);
+    }
+
     public static function sberbankRespondedWithAnError(ClientException $exception): self
     {
         if (! $exception->hasResponse()) {
@@ -39,7 +44,7 @@ class CouldNotSend extends Exception
 
     public static function orderNumberNotProvided(): self
     {
-        return new static("Order ID was not provided");
+        return new static("Order number was not provided");
     }
 
     public static function orderAmountNotProvided(): self

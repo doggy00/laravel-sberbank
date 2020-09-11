@@ -32,6 +32,26 @@ class SberbankApi
         return $this->sendRequest('register.do', $params, $interface);
     }
 
+    public function depositDo(array $params, string $interface = 'rest'): ?ResponseInterface
+    {
+        return $this->sendRequest('deposit.do', $params, $interface);
+    }
+
+    public function reverseDo(array $params, string $interface = 'rest'): ?ResponseInterface
+    {
+        return $this->sendRequest('reverse.do', $params, $interface);
+    }
+
+    public function getOrderStatusExtendedDo(array $params, string $interface = 'rest'): ?ResponseInterface
+    {
+        return $this->sendRequest('getOrderStatusExtended.do', $params, $interface);
+    }
+
+    public function declineDo(array $params, string $interface = 'rest'): ?ResponseInterface
+    {
+        return $this->sendRequest('decline.do', $params, $interface);
+    }
+
     protected function sendRequest(string $endpoint, array $params, string $interface): ?ResponseInterface
     {
         if (blank($this->username)) {

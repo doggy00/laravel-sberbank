@@ -21,20 +21,16 @@ class SberbankApiClient
             throw CouldNotSend::invalidType();
         }
 
-        if (blank($params['orderNumber'])) {
-            throw CouldNotSend::orderNumberNotProvided();
-        } elseif (blank($params['amount'])) {
-            throw CouldNotSend::orderAmountNotProvided();
-        } elseif (blank($params['returnUrl'])) {
-            throw CouldNotSend::orderReturnUrlNotProvided();
-        }
-
-        $params = SberbankApiDo::create($params['orderNumber'], $params['amount']);
-
-        $data = $params->toArray();
-
-        if ($params instanceof SberbankApiDo) {
-            $response = $this->sberbank->registerDo($data);
+        if ($params instanceof SberbankApiRegisterDo) {
+            $response = $this->sberbank->registerDo($params);
+        } elseif ($params instanceof SberbankApiDepositDo) {
+            $response = $this->sberbank->depositDo($params);
+        } elseif ($params instanceof SberbankApiReverseDo) {
+            $response = $this->sberbank->reverseDo($params);
+        } elseif ($params instanceof SberbankApiGetOrderStatusExtendedDo) {
+            $response = $this->sberbank->getOrderStatusExtendedDo($params);
+        } elseif ($params instanceof SberbankApiDeclineDo) {
+            $response = $this->sberbank->declineDo($params);
         }
 
         return json_decode($response->getBody()->getContents(), true);
