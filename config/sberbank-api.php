@@ -5,5 +5,7 @@ return [
     'password' => env('SBERBANK_PASSWORD', ''),
     'test' => env('SBERBANK_TEST', true),
     'testurl' => env('SBERBANK_TESTURL', 'https://3dsec.sberbank.ru/payment/'),
-    'produrl' => env('SBERBANK_PRODURL', 'https://securepayments.sberbank.ru/payment/')
+    'produrl' => env('SBERBANK_PRODURL', 'https://securepayments.sberbank.ru/payment/'),
+    'returnurl' => env('SBERBANK_RETURNURL', ''),
+    'failurl' => env('SBERBANK_FAILURL', '')
 ];

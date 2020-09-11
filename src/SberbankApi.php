@@ -1,6 +1,5 @@
 <?php
 
-
 namespace SberbankApi;
 
 use Exception;
@@ -16,17 +15,16 @@ class SberbankApi
     protected $password;
     protected $is_test;
 
-    public function __construct($username = null, $password = null, $test = false, HttpClient $httpClient = null)
+    public function __construct()
     {
-        $this->username = $username;
-        $this->password = $password;
-        $this->http = $httpClient;
-        $this->is_test = $test;
+        $this->username = config('sberbank-api.username');
+        $this->password = config('sberbank-api.password');
+        $this->is_test = config('sberbank-api.test');
     }
 
     protected function httpClient(): HttpClient
     {
-        return $this->http ?? new HttpClient();
+        return new HttpClient();
     }
 
     public function registerDo(array $params, string $interface = 'rest'): ?ResponseInterface
@@ -34,7 +32,7 @@ class SberbankApi
         return $this->sendRequest('register.do', $params, $interface);
     }
 
-    protected function sendRequest(string $endpoint, array $params, string $interface, bool $multipart = false): ?ResponseInterface
+    protected function sendRequest(string $endpoint, array $params, string $interface): ?ResponseInterface
     {
         if (blank($this->username)) {
             throw CouldNotSend::sberbankUserNotProvided('You must provide your sberbank user name');
@@ -43,8 +41,8 @@ class SberbankApi
         }
 
         $register = [
-            'userName' => config('sberbank-api.username'),
-            'password' => config('sberbank-api.password')
+            'userName' => $this->username,
+            'password' => $this->password
         ];
 
         $params = array_merge($params, $register);
@@ -55,7 +53,7 @@ class SberbankApi
 
         try {
             return $this->httpClient()->post($endPointUrl, [
-                $multipart ? 'multipart' : 'form_params' => $params
+                'form_params' => $params
             ]);
         } catch (ClientException $exception) {
             throw CouldNotSend::sberbankRespondedWithAnError($exception);
@@ -63,5 +61,4 @@ class SberbankApi
             throw CouldNotSend::couldNotCommunicateWithSberbank($exception);
         }
     }
-
 }

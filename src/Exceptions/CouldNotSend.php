@@ -36,4 +36,24 @@ class CouldNotSend extends Exception
     {
         return new static("The communication with Sberbank failed. `{$message}`");
     }
+
+    public static function orderNumberNotProvided(): self
+    {
+        return new static("Order ID was not provided");
+    }
+
+    public static function orderAmountNotProvided(): self
+    {
+        return new static("Order amount was not provided");
+    }
+
+    public static function orderReturnUrlNotProvided(): self
+    {
+        return new static("Order return url was not provided. Please edit config file sberbank-api");
+    }
+
+    public static function invalidType(): self
+    {
+        return new static('Invalid type');
+    }
 }
