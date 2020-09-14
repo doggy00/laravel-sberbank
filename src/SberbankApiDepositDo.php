@@ -39,6 +39,6 @@ class SberbankApiDepositDo
             throw CouldNotSend::orderAmountNotProvided();
         }
 
-        return $this->apiClient()->send($this->params);
+        return $this->apiClient()->send(new self($this->params['orderId'], $this->params['amount']));
     }
 }

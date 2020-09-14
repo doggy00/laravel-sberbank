@@ -42,6 +42,6 @@ class SberbankApiRegisterDo
             throw CouldNotSend::orderReturnUrlNotProvided();
         }
 
-        return $this->apiClient()->send($this->params);
+        return $this->apiClient()->send(new self($this->params['orderNumber'], $this->params['amount']));
     }
 }

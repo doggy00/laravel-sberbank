@@ -39,6 +39,6 @@ class SberbankApiDeclineDo
             throw CouldNotSend::sberbankUserNotProvided('You must provide your sberbank user name');
         }
 
-        return $this->apiClient()->send($this->params);
+        return $this->apiClient()->send(new self($this->params['orderId']));
     }
 }
