@@ -3,9 +3,6 @@
 
 namespace SberbankApi;
 
-
-use SberbankApi\Exceptions\CouldNotSend;
-
 class SberbankApiClient
 {
     protected $sberbank;
@@ -17,20 +14,18 @@ class SberbankApiClient
 
     public function send($params) {
 
-        if (!is_array($params)) {
-            throw CouldNotSend::invalidType();
-        }
+        $data = $params->toArray();
 
         if ($params instanceof SberbankApiRegisterDo) {
-            $response = $this->sberbank->registerDo($params);
+            $response = $this->sberbank->registerDo($data);
         } elseif ($params instanceof SberbankApiDepositDo) {
-            $response = $this->sberbank->depositDo($params);
+            $response = $this->sberbank->depositDo($data);
         } elseif ($params instanceof SberbankApiReverseDo) {
-            $response = $this->sberbank->reverseDo($params);
+            $response = $this->sberbank->reverseDo($data);
         } elseif ($params instanceof SberbankApiGetOrderStatusExtendedDo) {
-            $response = $this->sberbank->getOrderStatusExtendedDo($params);
+            $response = $this->sberbank->getOrderStatusExtendedDo($data);
         } elseif ($params instanceof SberbankApiDeclineDo) {
-            $response = $this->sberbank->declineDo($params);
+            $response = $this->sberbank->declineDo($data);
         }
 
         return json_decode($response->getBody()->getContents(), true);
