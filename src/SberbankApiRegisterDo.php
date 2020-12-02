@@ -11,18 +11,18 @@ class SberbankApiRegisterDo
 {
     use HasSharedLogic;
 
-    public static function create(int $orderNumber, int $amount): self
+    public static function create(string $orderNumber, int $amount): self
     {
-        return new self($orderNumber, $amount);
+        return new self((string)$orderNumber, (int)$amount);
     }
 
-    public function __construct(int $orderNumber, int $amount)
+    public function __construct(string $orderNumber, int $amount)
     {
         $this->content($orderNumber, $amount);
         $this->params['returnUrl'] = config('sberbank-api.returnurl');
     }
 
-    protected function content(int $orderNumber, int $amount): self
+    protected function content(string $orderNumber, int $amount): self
     {
         $this->params = [
             'orderNumber' => $orderNumber,
@@ -36,7 +36,7 @@ class SberbankApiRegisterDo
     {
         if (blank($this->params['orderNumber'])) {
             throw CouldNotSend::orderNumberNotProvided();
-        } elseif (blank($this->params['amount'])) {
+        } elseif (empty($this->params['amount'])) {
             throw CouldNotSend::orderAmountNotProvided();
         } elseif (blank($this->params['returnUrl'])) {
             throw CouldNotSend::orderReturnUrlNotProvided();

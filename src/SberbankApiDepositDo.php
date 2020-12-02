@@ -11,20 +11,20 @@ class SberbankApiDepositDo
 {
     use HasSharedLogic;
 
-    public static function create(int $orderNumber, int $amount): self
+    public static function create(string $orderId, int $amount): self
     {
-        return new self($orderNumber, $amount);
+        return new self((string)$orderId, (int)$amount);
     }
 
-    public function __construct(int $orderNumber, int $amount)
+    public function __construct(string $orderId, int $amount)
     {
-        $this->content($orderNumber, $amount);
+        $this->content($orderId, $amount);
     }
 
-    protected function content(int $orderNumber, int $amount): self
+    protected function content(string $orderId, int $amount): self
     {
         $this->params = [
-            'orderNumber' => $orderNumber,
+            'orderId' => $orderId,
             'amount' => $amount
         ];
 

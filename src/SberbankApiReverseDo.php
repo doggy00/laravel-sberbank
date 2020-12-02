@@ -13,7 +13,7 @@ class SberbankApiReverseDo
 
     public static function create(string $orderId): self
     {
-        return new static($orderId);
+        return new static((string) $orderId);
     }
 
     public function __construct(string $orderId)
